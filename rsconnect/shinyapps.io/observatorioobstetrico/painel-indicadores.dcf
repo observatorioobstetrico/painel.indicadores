@@ -1,0 +1,13 @@
+name: painel-indicadores
+title: painel-indicadores
+username:
+account: observatorioobstetrico
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7578544
+bundleId: 6499999
+url: https://observatorioobstetrico.shinyapps.io/painel-indicadores/
+when: 1668111038.40817
+lastSyncTime: 1668111038.40818
+asMultiple: FALSE
+asStatic: FALSE
