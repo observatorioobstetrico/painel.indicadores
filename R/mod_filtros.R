@@ -15,7 +15,7 @@ mod_filtros_ui <- function(id, nivel){
     fluidRow(
       bs4Dash::bs4Card(
         width = 12,
-        title = "Filtros",
+        title = HTML("<b> Filtros </b>"),
         icon = icon("filter"),
         status = "primary",
         fluidRow(

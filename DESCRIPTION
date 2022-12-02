@@ -15,8 +15,11 @@ Imports:
     golem (>= 0.3.3),
     highcharter,
     pkgload,
+    reactable,
     shiny (>= 1.7.2),
     spelling,
+    tibble,
+    tidyr,
     viridis
 Encoding: UTF-8
 LazyData: true

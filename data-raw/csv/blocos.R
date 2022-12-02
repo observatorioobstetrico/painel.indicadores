@@ -44,3 +44,6 @@ usethis::use_data(bloco3, overwrite = TRUE)
 usethis::use_data(bloco4, overwrite = TRUE)
 usethis::use_data(bloco5, overwrite = TRUE)
 usethis::use_data(bloco6, overwrite = TRUE)
+
+
+

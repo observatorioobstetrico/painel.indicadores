@@ -11,7 +11,7 @@ mod_bloco_1_ui <- function(id){
   ns <- NS(id)
   tagList(
   mod_filtros_ui(ns("filtros_1"), nivel = 2),
-  "Em construção"
+  "Provavelmente vai sair"
   )
 }
 

@@ -5,9 +5,9 @@ account: observatorioobstetrico
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7578544
-bundleId: 6499999
+bundleId: 6582501
 url: https://observatorioobstetrico.shinyapps.io/painel-indicadores/
-when: 1668111038.40817
-lastSyncTime: 1668111038.40818
+when: 1669996834.3884
+lastSyncTime: 1669996834.38841
 asMultiple: FALSE
 asStatic: FALSE

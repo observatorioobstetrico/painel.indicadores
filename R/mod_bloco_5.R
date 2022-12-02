@@ -14,7 +14,7 @@
 mod_bloco_5_ui <- function(id){
   ns <- NS(id)
   tagList(
-    h2("Série histórica dos indicadores do Bloco 5: Condições de nascimento"),
+    h2("Condições de nascimento: série histórica"),
     hr(),
     mod_filtros_ui(ns("filtros_1"), nivel = 2),
     fluidRow(
@@ -23,8 +23,7 @@ mod_bloco_5_ui <- function(id){
         bs4Dash::bs4Card(
           width = 12,
           status = "primary",
-          title = " - Condições de nascimento",
-          icon = icon("5"),
+          title = HTML("<b> Resumo do período </b>"),
           htmlOutput(ns("texto5"))
         )
       ),
@@ -33,7 +32,7 @@ mod_bloco_5_ui <- function(id){
         bs4Dash::bs4Card(
           width = 12,
           status = "primary",
-          title = "Proporção de nascidos vivos com baixo peso",
+          title = HTML("<b> Proporção de nascidos vivos com baixo peso </b>"),
           highcharter::highchartOutput(ns("plot1"))
         )
       ),
@@ -42,7 +41,7 @@ mod_bloco_5_ui <- function(id){
         bs4Dash::bs4Card(
           width = 12,
           status = "primary",
-          title = "Proporção de nascimentos prematuros",
+          title = HTML("<b> Proporção de nascimentos prematuros </b>"),
           highcharter::highchartOutput(ns("plot2"))
         )
       ),
@@ -51,7 +50,7 @@ mod_bloco_5_ui <- function(id){
         bs4Dash::bs4Card(
           width = 12,
           status = "primary",
-          title = "Proporção de nascimentos termo precoce",
+          title = HTML("<b> Proporção de nascimentos termo precoce </b>"),
           highcharter::highchartOutput(ns("plot3"))
         )
       )
@@ -194,9 +193,9 @@ mod_bloco_5_server <- function(id){
     })
 
     output$texto5 <- renderUI({
-      HTML(paste("% baixo peso: ",round(data_resumo()$porc_baixo_peso*100,2),
-                 "% prematuros ",round(data_resumo()$porc_premat*100,2),
-                 "% nascidos termo precoce ",round(data_resumo()$porc_termo_precoce*100,2),
+      HTML(paste("<b> % baixo peso: </b>",round(data_resumo()$porc_baixo_peso*100,2),
+                 "<b> % prematuros </b>",round(data_resumo()$porc_premat*100,2),
+                 "<b> % nascidos termo precoce </b>",round(data_resumo()$porc_termo_precoce*100,2),
                  sep = '<br/>'))
     })
 

@@ -10,6 +10,8 @@
 mod_bloco_2_ui <- function(id){
   ns <- NS(id)
   tagList(
+    h2("Planejamento Reprodutivo: série histórica"),
+    hr(),
     mod_filtros_ui(ns("filtros_1"), nivel = 2),
     fluidRow(
       column(
@@ -17,8 +19,7 @@ mod_bloco_2_ui <- function(id){
         bs4Dash::bs4Card(
           width = 12,
           status = "primary",
-          title = " - Planejamento Reprodutivo",
-          icon = icon("2"),
+          title = HTML("<b> Resumo do período </b>"),
           htmlOutput(ns("texto2"))
         )
       ),
@@ -27,7 +28,7 @@ mod_bloco_2_ui <- function(id){
         bs4Dash::bs4Card(
           width = 12,
           status = "primary",
-          title = "Proporção de mulheres com < 20 anos",
+          title = HTML("<b> Proporção de mulheres com < 20 anos </b>"),
           highcharter::highchartOutput(ns("plot1"))
         )
       ),
@@ -36,7 +37,7 @@ mod_bloco_2_ui <- function(id){
         bs4Dash::bs4Card(
           width = 12,
           status = "primary",
-          title = "Proporção de mulheres com 3 partos anteriores",
+          title = HTML("<b> Proporção de mulheres com 3 partos anteriores </b>"),
           highcharter::highchartOutput(ns("plot2"))
         )
       ),
@@ -45,8 +46,42 @@ mod_bloco_2_ui <- function(id){
         bs4Dash::bs4Card(
           width = 12,
           status = "primary",
-          title = "Proporção de internações por aborto inseguro",
+          title = HTML("<b> Proporção de internações por aborto inseguro </b>"),
           highcharter::highchartOutput(ns("plot3"))
+        )
+      ),
+      fluidRow(
+        column(
+          width = 6,
+          bs4Dash::bs4Card(
+            width = 12,
+            status = "secondary",
+            headerBorder = FALSE,
+            HTML(
+              "<p class = negrito>
+            O acesso ao planejamento produtivo e a prevenção de gestações indesejadas ou de alto risco
+            é fundamental para que as mulheres tenham uma gestação segura.
+            <br>
+            Dados sobre o acesso a métodos contraceptivos não estão disponíveis nos sistemas de informação
+            brasileiros de uso rotineiro.
+            <br>
+            "
+            )
+          )
+        ),
+        column(
+          width = 5,
+          bs4Dash::bs4Card(
+            width = 12,
+            status = "secondary",
+            headerBorder = FALSE,
+            height = "160px",
+            HTML(
+              "Os indicadores desse bloco apresentam as necessidades não atendidas de contracepção de forma indireta,
+              por meio da taxa de fertilidade em adolescentes, da proporção de mulheres com número elevado de partos,
+              e das taxas de aborto inseguro."
+            )
+          )
         )
       )
     )
@@ -89,9 +124,9 @@ mod_bloco_2_server <- function(id){
         ) |>
         dplyr::group_by(ano) |>
         dplyr::summarise(total_de_nascidos_vivos = sum(total_de_nascidos_vivos),
-                         porc_menor20 = round(sum(nvm_menor_que_20)/total_de_nascidos_vivos*100,2),
+                         porc_menor20 = round(sum(nvm_menor_que_20)/sum(pop_feminina_10_a_19)*1000,2),
                          porc_mais_3pt = round(sum(mulheres_com_mais_de_tres_partos_anteriores)/total_de_nascidos_vivos*100,2),
-                         porc_int_aborto = round(sum(internacoes_aborto)/total_de_nascidos_vivos*100,2),
+                         porc_int_aborto = round(sum(internacoes_aborto)*0.75*2*(1+(sum(pop_fem_10_49_com_plano_saude)/sum(pop_fem_10_49)))/sum(pop_fem_10_49)*1000,2),
                          class = dplyr::case_when(
                            filtros()$nivel == "Nacional" ~ "Brasil",
                            filtros()$nivel == "Regional" ~ filtros()$regiao,
@@ -122,17 +157,17 @@ mod_bloco_2_server <- function(id){
             municipio == filtros()$municipio
         ) |>
         dplyr::summarise(total_de_nascidos_vivos = sum(total_de_nascidos_vivos),
-                         porc_menor20 = round(sum(nvm_menor_que_20)/total_de_nascidos_vivos*100,2),
+                         porc_menor20 = round(sum(nvm_menor_que_20)/sum(pop_feminina_10_a_19)*1000,2),
                          porc_mais_3pt = round(sum(mulheres_com_mais_de_tres_partos_anteriores)/total_de_nascidos_vivos*100,2),
-                         porc_int_aborto = round(sum(internacoes_aborto)/total_de_nascidos_vivos*100,2)
+                         porc_int_aborto = round(sum(internacoes_aborto)*0.75*2*(1+(sum(pop_fem_10_49_com_plano_saude)/sum(pop_fem_10_49)))/sum(pop_fem_10_49)*1000,2)
         ) |>
         dplyr::ungroup()
     })
 
     output$texto2 <- renderUI({
-      HTML(paste("% menos de 20 anos ",data_resumo()$porc_menor20,
-                 "% mais de 3 partos ",data_resumo()$porc_mais_3pt,
-                 "% internações aborto ",data_resumo()$porc_int_aborto,
+      HTML(paste("<b> % menos de 20 anos </b>",data_resumo()$porc_menor20,
+                 "<b> % mais de 3 partos </b>",data_resumo()$porc_mais_3pt,
+                 "<b> taxa de internações aborto </b>",data_resumo()$porc_int_aborto,
                  sep = '<br/>'))
     })
 
@@ -156,9 +191,9 @@ mod_bloco_2_server <- function(id){
         ) |>
         dplyr::group_by(ano) |>
         dplyr::summarise(total_de_nascidos_vivos = sum(total_de_nascidos_vivos),
-                         porc_menor20 = round(sum(nvm_menor_que_20)/total_de_nascidos_vivos*100,2),
+                         porc_menor20 = round(sum(nvm_menor_que_20)/sum(pop_feminina_10_a_19)*1000,2),
                          porc_mais_3pt = round(sum(mulheres_com_mais_de_tres_partos_anteriores)/total_de_nascidos_vivos*100,2),
-                         porc_int_aborto = round(sum(internacoes_aborto)/total_de_nascidos_vivos*100,2),
+                         porc_int_aborto = round(sum(internacoes_aborto)*0.75*2*(1+(sum(pop_fem_10_49_com_plano_saude)/sum(pop_fem_10_49)))/sum(pop_fem_10_49)*1000,2),
                          class = dplyr::case_when(
                            filtros()$nivel2 == "Nacional" ~ "Brasil",
                            filtros()$nivel2 == "Regional" ~ filtros()$regiao2,

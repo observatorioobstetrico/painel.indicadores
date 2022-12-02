@@ -12,15 +12,16 @@
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
-    golem_add_external_resources(),
+    golem_add_external_resources(
+    ),
     # Your application UI logic
     bs4Dash::bs4DashPage(
       bs4Dash::bs4DashNavbar(
         title = bs4Dash::bs4DashBrand(
           title = "Indicadores Obstétricos",
           color = "primary",
-          href = "https://observatorioobstetricobr.org/"#,
-          #image = "www/logo-oobr2.png"
+          href = "https://observatorioobstetricobr.org/",
+          image = "www/logo-oobr2.png"
         ),
         status = "primary"
       ),
